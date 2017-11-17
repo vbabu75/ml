@@ -33,11 +33,14 @@ def lin_reg_normal_equation(X,y):
   return theta
 
 if __name__=="__main__":
+  ## Readin and normalize data
   frame = pd.read_csv('ex1data2.txt',header=None)
   X_orig = frame.values[:,:2] # Features
   y_orig = frame.values[:,-1] # Target value
   m = len(y_orig)  # Number of training examples
   X,mu,sigma = feature_normalize(X_orig)
+
+  ## Linear Regression using gradient descent
   X = np.c_[np.ones(m),X] # Add a column X0 to feature matrix
   alpha = 0.01
   num_iters = 3000
@@ -46,7 +49,16 @@ if __name__=="__main__":
   targetX = [1,(1650-mu[0])/sigma[0],(3-mu[1])/sigma[1]]
   price = np.dot(targetX,theta)
   print("Price calculated through linear regression - gradient descent is {}".format(price))
+
+  ## Linear Regression using normal equation
   ntheta = lin_reg_normal_equation(X,y_orig)
   nprice = np.dot(targetX,ntheta)
   print("Price calculated through linear regression - normal equation is {}".format(nprice))
+
+  ## Linear Regression using sklearn
+  import sklearn.linear_model
+  lrmodel = sklearn.linear_model.LinearRegression()
+  lrmodel.fit(X,y_orig)
+  skprice = lrmodel.predict(np.array(targetX).reshape(1,-1))[0]
+  print("Price calculated through sklearn.linear_model.LinearRegression is {}".format(skprice))
 
