@@ -31,7 +31,7 @@ def generate_store_sales_data(nStores,nDays,filename):
             dates.append(curr_date)
             curr_date += timedelta(days=1)
     df = pd.DataFrame()
-    df['store_id']=store_ids
+    df['store_name']=store_ids
     df['date']=dates
     df['sales']=sales
     df.to_csv(filename,index=False)
